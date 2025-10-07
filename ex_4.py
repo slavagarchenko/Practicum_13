@@ -2,11 +2,6 @@ def make_payment(payment):
     """
     Processes a credit card payment.
     
-    Conditions:
-    - Credit limit: $1000
-    - Minimum payment: $20
-    - The payment cannot exceed the credit limit
-    
     Args:
         payment (float): payment amount
     
