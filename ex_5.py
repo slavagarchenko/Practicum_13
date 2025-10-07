@@ -12,7 +12,11 @@ def telephone_card_value():
     total_value (int): total card value including bonus, or None if invalid input
   """
   try:
-    bonuses = {5:0, 10:0, 25:3, 50:8, 100:20}
+    bonuses = {5:0, 
+               10:0, 
+               25:3, 
+               50:8, 
+               100:20}
 
     if card_value in bonuses:
       total_value = card_value+bonuses[card_value]
