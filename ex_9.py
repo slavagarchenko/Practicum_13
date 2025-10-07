@@ -83,6 +83,22 @@ def convert_date_time(date_time_str):
             print("Секунды должны быть от 0 до 59")
             return
 
-    
+        total_seconds = 0
 
+        for i in range(1, month):
+            total_seconds += days_in_month[i] * 24 * 3600
+
+        total_seconds +=(day-1) * 24 * 3600
+
+        total_seconds += hour * 3600 + minute *60 + second
+
+        return total_seconds
+    
+    except Exception as e:
+        print(f"Ошибка обработки: {e}")
+        return None
+
+
+data = input("Введите дату и время (MM/DD/YYYY HR:MIN:SEC): ")
+seconds = seconds_in_year(data)
 
