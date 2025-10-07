@@ -11,7 +11,7 @@ def count_vowels_consonants(sentence):
     vowel_count (int) - number of vowels in sentence
     consonant_count (int) - number of consonants in sentence
   """
-  sentence lower = sentence.lower()
+  sentence_lower = sentence.lower()
   
   vowels = set('аеёиоуыэюя')
   consonants = set('бвгджзйклмнпрстфхцчшщ')
