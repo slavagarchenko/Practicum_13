@@ -8,7 +8,6 @@ def convert_date_time(date_time_str):
         None
     """
     try:
-        # Разделяем дату и время
         if len(date_time_str.split()) != 2:
             print("Неверно введен формат даты-времени")
             return
