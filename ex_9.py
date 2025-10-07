@@ -1,4 +1,4 @@
-def convert_date_time(date_time_str):
+def seconds_in_year(date_time_str):
     """
     Convert date and time string from "MM/DD/YYYY HR:MIN:SEC" format to "DD.MM.YY HR:MIN:SEC"
     
