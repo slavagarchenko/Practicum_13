@@ -20,7 +20,7 @@ def telephone_card_value():
                    100: 20}
 
         if card_value in bonuses:
-            total_value = card_value+bonuses[card_value]
+            total_value = card_value + bonuses[card_value]
             return total_value
         else:
             print("Неверная стоимость карты")

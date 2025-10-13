@@ -27,7 +27,7 @@ def triangle(points, color):
     turtle.end_fill()
 
 
-def draw_square(x, y, size, color1, color2, quarter):
+def square(x, y, size, color1, color2, quarter):
     """
     Draw a square composed of two triangles.
 
@@ -59,7 +59,7 @@ def draw_square(x, y, size, color1, color2, quarter):
     triangle(points2, color2)
 
 
-def draw_pattern():
+def pattern():
     """
     Draw a complete pattern composed of four colored queters.
     """
@@ -107,8 +107,8 @@ def draw_pattern():
                 else:
                     y = start_y + j * square_size
 
-                draw_square(x, y, square_size, color1, color2, quarter)
+                square(x, y, square_size, color1, color2, quarter)
 
 
-draw_pattern()
+pattern()
 turtle.done()
