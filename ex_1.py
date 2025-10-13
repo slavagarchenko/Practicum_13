@@ -28,5 +28,5 @@ def count_vowels_consonants(sentence):
     print(f"Количество согласных букв: {consonant_count}")
 
 
-sentence = input()
+sentence = input("Введите текст для анализа: ")
 count_vowels_consonants(sentence)

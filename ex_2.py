@@ -25,7 +25,8 @@ def print_fibonacci_sequence(n):
         prev1, prev2 = prev2, current
 
 
-number = int(input())
+number = int(
+    input("Введите число, до которого хотите расчитать числа Фибоначчи: "))
 
 while number < 0:
     print("Введите положительное число порядка")

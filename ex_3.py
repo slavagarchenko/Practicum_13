@@ -44,10 +44,10 @@ while True:
 
 while True:
     card_input = input("Есть ли у вас дисконтная карта? (да/нет): ").lower()
-    if card_input.lower() == "да":
+    if card_input == "да":
         has_discount_card = True
         break
-    elif card_input.lower() == "нет":
+    elif card_input == "нет":
         has_discount_card = False
         break
     else:
@@ -55,10 +55,10 @@ while True:
 
 while True:
     holiday_input = input("Сегодня праздничный день? (да/нет): ").lower()
-    if holiday_input.lower() == "да":
+    if holiday_input == "да":
         is_holiday = True
         break
-    elif holiday_input.lower() == "нет":
+    elif holiday_input == "нет":
         is_holiday = False
         break
     else:

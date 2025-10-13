@@ -20,6 +20,7 @@ def triangle(points, color):
     turtle.penup()
     turtle.goto(points[0])
     turtle.pendown()
+    turtle.begin_fill()
     for point in points:
         turtle.goto(point)
     turtle.goto(points[0])
