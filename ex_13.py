@@ -5,7 +5,16 @@ t.speed(0)
 
 def triangle(p1, p2, p3, color):
     """
+    Draw a filled triangle.
 
+    Args:
+        p1 (tuple): First point (x, y) coordinates.
+        p2 (tuple): Second point (x, y) coordinates.
+        p3 (tuple): Third point (x, y) coordinates.
+        color (str): Fill color of the triangle.
+
+    Returns:
+        None
     """
     t.pencolor(color)
     t.fillcolor(color)
@@ -15,13 +24,23 @@ def triangle(p1, p2, p3, color):
     t.begin_fill()
     t.goto(p2)
     t.goto(p3)
-    t.goto(p1)  # Замыкаем треугольник
+    t.goto(p1)
     t.end_fill()
 
 
-def square_from_triangles(x, y, size, color1, color2):
+def square(x, y, size, color1, color2):
     """
+    Draw a square composed of two triangles.
 
+    Args:
+        x (float): X-coordinate of the bottom-left corner.
+        y (float): Y-coordinate of the bottom-left corner.
+        size (float): Side length of the square.
+        color1 (str): Color of the first triangle.
+        color2 (str): Color of the second triangle.
+
+    Returns:
+        None
     """
     bottom_left = (x, y)
     bottom_right = (x + size, y)
@@ -32,37 +51,51 @@ def square_from_triangles(x, y, size, color1, color2):
     triangle(bottom_left, top_right, top_left, color2)
 
 
-def pattern(rows, cols, size):
-    """
+def pattern():
+    colors = [
+        'lightblue', 'blue', 'blue',
+        'lightblue', 'lightblue',
+        'white', 'white',
+        'lightblue', 'lightblue'
+    ]
+    size = 80
+    rows = 3
+    cols = 3
+    i = 0
+    j = 1
+    for row in range(rows):
+        for col in range(cols):
+            x = -cols * size // 2 + col * size
+            y = rows * size // 2 - row * size
+            square(x, y, size, colors[i], colors[j])
 
-    """
-    spacing = size  # Расстояние между квадратами равно размеру стороны
-    start_x = -cols * spacing / 2  # Центрируем узор по X
-    start_y = rows * spacing / 2   # Центрируем узор по Y
-
-    # Цвета для чередования
-    colors = ["yellow", "blue"]
-
-    for i in range(rows):
-        for j in range(cols):
-            # Координаты левого нижнего угла текущего квадрата
-            x = start_x + j * spacing
-            y = start_y - i * spacing
-
-            # Чередование цветов в шахматном порядке
-            if (i + j) % 2 == 0:
-                color1, color2 = colors[0], colors[1]  # Желтый и синий
+            if i == 8:
+                i = 2
             else:
-                color1, color2 = colors[1], colors[0]  # Синий и желтый
+                i += 2
+            if j == 7:
+                j = 1
+            else:
+                j += 2
 
-            square_from_triangles(x, y, size, color1, color2)
+    i = 0
+    j = 1
 
+    for col in range(cols):
+        for row in range(rows):
+            x = -cols * size // 2 + col * size
+            y = rows * size // 2 - row * size
+            square(x, y, size, colors[i], colors[j])
 
-rows = int(input("Введите количество строчек: "))
-cols = int(input("Введите количество столбцов: "))
-size = 50
+            if i == 8:
+                i = 2
+            else:
+                i += 2
+            if j == 7:
+                j = 1
+            else:
+                j += 2
 
-pattern(rows, cols, size)
 
 t.hideturtle()
 t.done()

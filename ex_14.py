@@ -1,78 +1,65 @@
-def custom_find(text, substring, start=0, end=None):
+def find_substring(main_string, substring, start=0, end=None):
     """
-    Аналог строкового метода find без использования встроенного find
-    Возвращает индекс первого вхождения подстроки или -1 если не найдено
+    Finds the index of the first occurrence of a substring in
+    a main string.
+
+    Args:
+        main_string (str): The string to search in (e.g., DNA sequence).
+        substring (str): The substring to search for.
+        start (int): Starting index for the search (default 0).
+        end (int): Ending index for the search (default None,
+                    meaning end of string).
+
+    Returns:
+        int: Index of the first occurrence of substring, or
+                -1 if not found.
     """
     if end is None:
-        end = len(text)
+        end = len(main_string)
 
-    # Проверка корректности параметров
-    if not substring:
-        return -1
-    if start < 0:
-        start = 0
-    if end > len(text):
-        end = len(text)
+    start = max(0, min(start, len(main_string)))
+    end = max(start, min(end, len(main_string)))
 
-    substring_len = len(substring)
-    text_len = end - start
-
-    # Если подстрока длиннее оставшегося текста
-    if substring_len > text_len:
-        return -1
-
-    # Линейный поиск
-    for i in range(start, end - substring_len + 1):
+    for i in range(start, end - len(substring) + 1):
         match = True
-        for j in range(substring_len):
-            if text[i + j] != substring[j]:
+        for j in range(len(substring)):
+            if main_string[i + j] != substring[j]:
                 match = False
                 break
         if match:
             return i
-
     return -1
 
 
-def find_all_occurrences(text, substring):
+def find_all_indices(main_string, substring):
     """
-    Находит все вхождения подстроки в тексте
-    Возвращает строку с индексами, разделенными запятыми
+    Finds all indices of occurrences of a substring in a main string.
+
+    Args:
+        main_string (str): The string to search in (e.g., DNA sequence).
+        substring (str): The substring to search for.
+
+    Returns:
+        str: Comma-separated string of indices, or
+                empty string if not found.
     """
-    if not substring:
-        return ""
-
     indices = []
-    current_pos = 0
-    text_len = len(text)
-    substring_len = len(substring)
 
-    while current_pos <= text_len - substring_len:
-        # Используем нашу функцию custom_find для поиска
-        pos = custom_find(text, substring, current_pos)
-        if pos == -1:
-            break
-        indices.append(str(pos))
-        current_pos = pos + 1  # Ищем следующее вхождение
-
-    return ",".join(indices)
+    for i in range(len(main_string) - len(substring) + 1):
+        match = True
+        for j in range(len(substring)):
+            if main_string[i + j] != substring[j]:
+                match = False
+                break
+        if match:
+            indices.append(str(i))
+    return ','.join(indices) if indices else -1
 
 
-"""
-def boyer_moor_find_all(text, substring):
-    if not substring:
-        return
-    
-    indices = []
-    current_pos = 0
-    text_len = len(text)
-    
-    while current_pos <= text_len - len(substring):
-        pos = boyer_moor_find(text, substring, current_pos)
-        if pos == -1:
-            break
-        indices.append(str(pos))
-        current_pos = pos + 1
-    
-    return ",".join(indices)
-"""
+dna_sequence = input("Введите последовательность ДНК: ")
+dna_section = input("Введите искомую часть ДНК: ")
+start = int(input("Введите начальный индекс поиска для первого вхождения: "))
+end = int(input("Введите конечный индекс для поиска первого вхождений: "))
+
+print(find_substring(dna_sequence, dna_section, start, end))
+print(find_all_indices(dna_sequence, dna_section))

@@ -3,80 +3,137 @@ import turtle as t
 t.speed(0)
 
 
-def circle(size):
-    """Draw a filled circle with a green color.
+def square(x, y, size, color):
+    """Draw a filled rectangle.
 
     Args:
-        size (float): the radius of the circle.
+        x (float): The x-coordinate of the bottom-left corner.
+        y (float): The y-coordinate of the bottom-left corner.
+        width (float): The width of the rectangle.
+        height (float): The height of the rectangle.
+        color (str): The fill color of the rectangle.
+
+    Returns:
+        None
     """
-    color = "green"
-    t.fillcolor(color)
-    t.begin_fill()
-    t.circle(size)
-    t.end_fill()
-
-
-def square(size):
-    """Draw a filled square with a red color.
-
-    Args:
-        size (float): the length of each side of the square.
-    """
-    color = "red"
+    t.penup()
+    t.goto(x, y)
+    t.pendown()
     t.fillcolor(color)
     t.begin_fill()
     for i in range(4):
         t.forward(size)
         t.right(90)
     t.end_fill()
+    t.penup()
 
 
-def triangle(size):
-    """Draw a filled equilateral triangle with a blue color.
+def triangle(x, y, size, color, is_upward=True):
+    """Draw a filled equilateral triangle.
 
     Args:
+        x (float): The x-coordinate of the bottom-left corner.
+        y (float): The y-coordinate of the bottom-left corner.
         size (float): The length of each side of the triangle.
+        color (str): The fill color of the triangle.
+        is_upward (bool, optional): If True, triangle points upward;
+                                    if False, downward. Defaults to True.
+
+    Returns:
+        None
     """
-    color = "blue"
+    t.penup()
+    t.goto(x, y)
+    t.pendown()
     t.fillcolor(color)
     t.begin_fill()
     for i in range(3):
         t.forward(size)
-        t.right(120)
+        if is_upward:
+            t.left(120)
+        else:
+            t.right(120)
     t.end_fill()
+    t.penup()
 
 
-def ornament(rows, cols, size):
-    """Draw a grid-based ornament pattern with repeating shapes.
+def hexagon(x, y, size, color):
+    """Draw a filled regular hexagon.
 
     Args:
-        rows (int): the number of rows in the grid.
-        cols (int): the number of columns in the grid.
-        size (float): the size parameter for the shapes 
+        x (float): The x-coordinate of the center.
+        y (float): The y-coordinate of the center.
+        size (float): The length of each side of the hexagon.
+        color (str): The fill color of the hexagon.
+
+    Returns:
+        None
     """
-    spacing = size * 2.5
-    start_x = -cols * spacing / 2
-    start_y = rows * spacing / 2
-
-    elements = [circle, square, triangle]
-
-    for i in range(rows):
-        for j in range(cols):
-            t.penup()
-            t.goto(start_x + j * spacing, start_y - i * spacing)
-            t.pendown()
-
-            element = elements[(i * cols + j) % 3]
-
-            t.setheading(0)
-            element(size)
+    t.penup()
+    t.goto(x, y - size / 2)
+    t.pendown()
+    t.fillcolor(color)
+    t.begin_fill()
+    for i in range(6):
+        t.forward(size)
+        t.left(60)
+    t.end_fill()
+    t.penup()
 
 
-rows = int(input("Введите количество строчек: "))
-cols = int(input("Введите количество столбцов: "))
-size = float(input("Введите размер для фигур: "))
+def ornament(num_elements, size):
+    """
+    Draws an ornament with triangles on top and bottom, and alternating
+    blue hexagons and green squares.
 
-ornament(rows, cols, size)
+    Args:
+        num_elements (int): Number of elements (hexagons and squares)
+                            in the pattern.
+        size (float): The size of each shape (side length for triangles,
+                        hexagons, and squares).
 
-t.hideturtle()
+    Returns:
+        None
+    """
+    t.penup()
+    start_x = - (num_elements * size * 1.5) / 2
+    t.goto(start_x, 0)
+    t.pendown()
+
+    t.penup()
+    t.goto(start_x, size * 2 + 25)
+    t.pendown()
+    for i in range(num_elements + 1):
+        t.penup()
+        t.goto(start_x + i * size * 1.5, size * 2 + 25)
+        t.pendown()
+        triangle(start_x + i * size * 1.5, size *
+                 2+25, size, "orange", is_upward=False)
+
+    t.penup()
+    t.goto(start_x, -size * 2)
+    t.pendown()
+    for i in range(num_elements + 1):
+        t.penup()
+        t.goto(start_x + i * size * 1.5, -size * 2)
+        t.pendown()
+        triangle(start_x + i * size * 1.5, -size *
+                 2, size, "orange", is_upward=True)
+
+    for i in range(num_elements + 1):
+        x = start_x + i * size * 1.5
+        y = 0
+        t.penup()
+        t.goto(x, y)
+        t.pendown()
+        if i % 2 == 0:
+            hexagon(x, y, size, "blue")
+        else:
+            square(x, y, size, "green")
+            square(x, y + 65, size, "green")
+
+    t.penup()
+
+
+ornament(6, 40)
 t.done()
