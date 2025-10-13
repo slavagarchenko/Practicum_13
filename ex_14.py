@@ -41,7 +41,7 @@ def find_all_indices(main_string, substring):
 
     Returns:
         str: Comma-separated string of indices, or
-                empty string if not found.
+                -1 if not found.
     """
     indices = []
 

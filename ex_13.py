@@ -1,34 +1,32 @@
-import turtle as t
+import turtle
 
-t.speed(0)
+turtle.speed(0)
 
 
-def triangle(p1, p2, p3, color):
+def triangle(points, color):
     """
     Draw a filled triangle.
 
     Args:
-        p1 (tuple): First point (x, y) coordinates.
-        p2 (tuple): Second point (x, y) coordinates.
-        p3 (tuple): Third point (x, y) coordinates.
-        color (str): Fill color of the triangle.
+        points (list): List of three coordinate tuples [(x1, y1), (x2, y2), (x3, y3)]
+                        representing the triangle vertices
+        color (str): Fill color of the triangle in hex format or color name.
 
     Returns:
         None
     """
-    t.pencolor(color)
-    t.fillcolor(color)
-    t.penup()
-    t.goto(p1)
-    t.pendown()
-    t.begin_fill()
-    t.goto(p2)
-    t.goto(p3)
-    t.goto(p1)
-    t.end_fill()
+    turtle.pencolor(color)
+    turtle.fillcolor(color)
+    turtle.penup()
+    turtle.goto(points[0])
+    turtle.pendown()
+    for point in points:
+        turtle.goto(point)
+    turtle.goto(points[0])
+    turtle.end_fill()
 
 
-def square(x, y, size, color1, color2):
+def draw_square(x, y, size, color1, color2, quarter):
     """
     Draw a square composed of two triangles.
 
@@ -38,64 +36,78 @@ def square(x, y, size, color1, color2):
         size (float): Side length of the square.
         color1 (str): Color of the first triangle.
         color2 (str): Color of the second triangle.
+        quater (int): Quater number determining orietation
 
     Returns:
         None
     """
-    bottom_left = (x, y)
-    bottom_right = (x + size, y)
-    top_right = (x + size, y + size)
-    top_left = (x, y + size)
+    if quarter == 1:
+        points1 = [(x, y), (x+size, y), (x, y-size)]
+        points2 = [(x+size, y), (x+size, y-size), (x, y-size)]
+    elif quarter == 2:
+        points1 = [(x, y), (x-size, y), (x, y-size)]
+        points2 = [(x-size, y), (x-size, y-size), (x, y-size)]
+    elif quarter == 3:
+        points1 = [(x, y), (x-size, y), (x, y+size)]
+        points2 = [(x-size, y), (x-size, y+size), (x, y+size)]
+    else:
+        points1 = [(x, y), (x+size, y), (x, y+size)]
+        points2 = [(x+size, y), (x+size, y+size), (x, y+size)]
 
-    triangle(bottom_left, bottom_right, top_right, color1)
-    triangle(bottom_left, top_right, top_left, color2)
+    triangle(points1, color1)
+    triangle(points2, color2)
 
 
-def pattern():
-    colors = [
-        'lightblue', 'blue', 'blue',
-        'lightblue', 'lightblue',
-        'white', 'white',
-        'lightblue', 'lightblue'
+def draw_pattern():
+    """
+    Draw a complete pattern composed of four colored queters.
+    """
+    colors = {
+        'синий': '#1E90FF',
+        'бирюзовый': '#AFEEEE',
+        'голубой': '#87CEFA'
+    }
+
+    turtle.speed(10)
+    turtle.pencolor('white')
+
+    quarter_size = 300
+    square_size = quarter_size / 3
+
+    color_combinations = [
+        (colors['бирюзовый'], colors['голубой']),
+        (colors['голубой'], colors['синий']),
+        (colors['синий'], colors['голубой']),
+        (colors['голубой'], colors['бирюзовый'])
     ]
-    size = 80
-    rows = 3
-    cols = 3
-    i = 0
-    j = 1
-    for row in range(rows):
-        for col in range(cols):
-            x = -cols * size // 2 + col * size
-            y = rows * size // 2 - row * size
-            square(x, y, size, colors[i], colors[j])
 
-            if i == 8:
-                i = 2
-            else:
-                i += 2
-            if j == 7:
-                j = 1
-            else:
-                j += 2
+    for quarter in range(1, 5):
+        if quarter == 1:
+            start_x, start_y = 0, quarter_size
+        elif quarter == 2:
+            start_x, start_y = 0, quarter_size
+        elif quarter == 3:
+            start_x, start_y = 0, -quarter_size
+        else:
+            start_x, start_y = 0, -quarter_size
 
-    i = 0
-    j = 1
+        for i in range(3):
+            for j in range(3):
+                color_index = (i + j) % 4
+                color1, color2 = color_combinations[color_index]
 
-    for col in range(cols):
-        for row in range(rows):
-            x = -cols * size // 2 + col * size
-            y = rows * size // 2 - row * size
-            square(x, y, size, colors[i], colors[j])
+                if quarter in [1, 4]:
+                    x = start_x + i * square_size
+                else:
+                    x = start_x - i * square_size
 
-            if i == 8:
-                i = 2
-            else:
-                i += 2
-            if j == 7:
-                j = 1
-            else:
-                j += 2
+                if quarter in [1, 2]:
+                    y = start_y - j * square_size
+                else:
+                    y = start_y + j * square_size
+
+                draw_square(x, y, square_size, color1, color2, quarter)
 
 
-t.hideturtle()
-t.done()
+draw_pattern()
+turtle.done()
