@@ -2,7 +2,7 @@ import turtle
 import random
 
 
-def draw_star(x, y):
+def stars(x, y):
     """
     Draw a star at specified coordinates.
 
@@ -18,20 +18,20 @@ def draw_star(x, y):
     turtle.penup()
 
 
-def draw_starry_sky(count=50):
+def sky(count=50):
     """
     Draw a starry sky with random stars.
 
     Args:
         count (int): Number of stars to draw (default: 50)
     """
-    for _ in range(count):
+    for i in range(count):
         x = random.randint(-440, 440)
         y = random.randint(50, 280)
-        draw_star(x, y)
+        stars(x, y)
 
 
-def draw_moon():
+def moon():
     """
     Draw a moon with crescent phase effect using two overlapping circles.
     """
@@ -50,7 +50,7 @@ def draw_moon():
     turtle.penup()
 
 
-def draw_window(x, y, width, height):
+def window(x, y, width, height):
     """
     Draw a single building window.
 
@@ -65,7 +65,7 @@ def draw_window(x, y, width, height):
     turtle.setheading(0)
     turtle.pendown()
     turtle.begin_fill()
-    for _ in range(2):
+    for i in range(2):
         turtle.forward(width)
         turtle.left(90)
         turtle.forward(height)
@@ -74,7 +74,7 @@ def draw_window(x, y, width, height):
     turtle.penup()
 
 
-def draw_windows(x, width, height, density=10):
+def windows(x, width, height, density=10):
     """
     Draw random windows on a building.
 
@@ -85,16 +85,16 @@ def draw_windows(x, width, height, density=10):
         density (int): Maximum number of windows to draw (default: 10)
     """
     turtle.color("#f5c06d")
-    for _ in range(random.randint(5, density)):
+    for i in range(random.randint(5, density)):
         window_x = x + random.randint(8, width - 20)
         window_y = -300 + random.randint(15, height - 25)
         if random.choice([True, False]):
             window_width = random.choice([8, 10, 12])
             window_height = random.choice([10, 14, 18])
-            draw_window(window_x, window_y, window_width, window_height)
+            window(window_x, window_y, window_width, window_height)
 
 
-def draw_roof(x, height, width):
+def roof(x, height, width):
     """
     Draw a roof with random style (flat, triangle, or spike).
 
@@ -111,7 +111,7 @@ def draw_roof(x, height, width):
 
     turtle.begin_fill()
     if style == "flat":
-        for _ in range(2):
+        for i in range(2):
             turtle.forward(width)
             turtle.left(90)
             turtle.forward(5)
@@ -127,7 +127,7 @@ def draw_roof(x, height, width):
     turtle.penup()
 
 
-def draw_building(x, width, height, color, has_windows=True, density=10):
+def building(x, width, height, color, has_windows=True, density=10):
     """
     Draw a single building with specified parameters.
 
@@ -145,7 +145,7 @@ def draw_building(x, width, height, color, has_windows=True, density=10):
     turtle.pendown()
     turtle.color(color)
     turtle.begin_fill()
-    for _ in range(2):
+    for i in range(2):
         turtle.forward(width)
         turtle.left(90)
         turtle.forward(height)
@@ -153,12 +153,12 @@ def draw_building(x, width, height, color, has_windows=True, density=10):
     turtle.end_fill()
     turtle.penup()
 
-    draw_roof(x, height, width)
+    roof(x, height, width)
     if has_windows:
-        draw_windows(x, width, height, density)
+        windows(x, width, height, density)
 
 
-def draw_cityscape(y_offset, color_palette, height_range, density=10,
+def city(y_offset, color_palette, height_range, density=10,
                    has_windows=True):
     """
     Draw a complete cityscape with multiple buildings.
@@ -175,7 +175,7 @@ def draw_cityscape(y_offset, color_palette, height_range, density=10,
         width = random.randint(50, 100)
         height = random.randint(*height_range)
         color = random.choice(color_palette)
-        draw_building(x, width, height, color, has_windows, density)
+        building(x, width, height, color, has_windows, density)
         x += width - random.randint(0, 15)
 
 
@@ -190,17 +190,17 @@ def main():
     turtle.hideturtle()
     turtle.colormode(255)
 
-    draw_starry_sky(50)
-    draw_moon()
+    sky(50)
+    moon()
 
-    draw_cityscape(
+    city(
         y_offset=-200,
         color_palette=["#100828", "#130a30", "#170c35"],
         height_range=(200, 350),
         has_windows=False
     )
 
-    draw_cityscape(
+    city(
         y_offset=-250,
         color_palette=["#1e1648", "#2c1e57", "#3a2670", "#2a1d5b"],
         height_range=(150, 280),
@@ -208,7 +208,7 @@ def main():
         has_windows=True
     )
 
-    draw_cityscape(
+    city(
         y_offset=-300,
         color_palette=["#4a2e8c", "#5a3aa3", "#6b46ba"],
         height_range=(100, 200),
@@ -219,5 +219,4 @@ def main():
     turtle.done()
 
 
-if __name__ == "__main__":
-    main()
+main()
